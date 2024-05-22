@@ -337,21 +337,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\generated\TLexer.cpp" />
-    <ClCompile Include="..\..\generated\TParser.cpp" />
-    <ClCompile Include="..\..\generated\TParserBaseListener.cpp" />
-    <ClCompile Include="..\..\generated\TParserBaseVisitor.cpp" />
-    <ClCompile Include="..\..\generated\TParserListener.cpp" />
-    <ClCompile Include="..\..\generated\TParserVisitor.cpp" />
+    <ClCompile Include="..\..\generated\SpirvAsmLexer.cpp" />
+    <ClCompile Include="..\..\generated\SpirvAsmParser.cpp" />
+    <ClCompile Include="..\..\generated\SpirvAsmParserBaseListener.cpp" />
+    <ClCompile Include="..\..\generated\SpirvAsmParserBaseVisitor.cpp" />
+    <ClCompile Include="..\..\generated\SpirvAsmParserListener.cpp" />
+    <ClCompile Include="..\..\generated\SpirvAsmParserVisitor.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\generated\TLexer.h" />
-    <ClInclude Include="..\..\generated\TParser.h" />
-    <ClInclude Include="..\..\generated\TParserBaseListener.h" />
-    <ClInclude Include="..\..\generated\TParserBaseVisitor.h" />
-    <ClInclude Include="..\..\generated\TParserListener.h" />
-    <ClInclude Include="..\..\generated\TParserVisitor.h" />
+    <ClInclude Include="..\..\generated\SpirvAsmLexer.h" />
+    <ClInclude Include="..\..\generated\SpirvAsmParser.h" />
+    <ClInclude Include="..\..\generated\SpirvAsmParserBaseListener.h" />
+    <ClInclude Include="..\..\generated\SpirvAsmParserBaseVisitor.h" />
+    <ClInclude Include="..\..\generated\SpirvAsmParserListener.h" />
+    <ClInclude Include="..\..\generated\SpirvAsmParserVisitor.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

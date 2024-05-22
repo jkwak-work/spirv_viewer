@@ -21,46 +21,46 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\generated\TParser.cpp">
+    <ClCompile Include="..\..\generated\SpirvAsmLexer.cpp">
       <Filter>generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\generated\TParserBaseListener.cpp">
+    <ClCompile Include="..\..\generated\SpirvAsmParser.cpp">
       <Filter>generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\generated\TParserBaseVisitor.cpp">
+    <ClCompile Include="..\..\generated\SpirvAsmParserBaseListener.cpp">
       <Filter>generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\generated\TParserListener.cpp">
+    <ClCompile Include="..\..\generated\SpirvAsmParserBaseVisitor.cpp">
       <Filter>generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\generated\TParserVisitor.cpp">
+    <ClCompile Include="..\..\generated\SpirvAsmParserListener.cpp">
       <Filter>generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\generated\TLexer.cpp">
+    <ClCompile Include="..\..\generated\SpirvAsmParserVisitor.cpp">
       <Filter>generated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\generated\TLexer.h">
-      <Filter>generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\TParser.h">
-      <Filter>generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\TParserBaseListener.h">
-      <Filter>generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\TParserBaseVisitor.h">
-      <Filter>generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\TParserListener.h">
-      <Filter>generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generated\TParserVisitor.h">
-      <Filter>generated</Filter>
-    </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\SpirvAsmLexer.h">
+      <Filter>generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\SpirvAsmParser.h">
+      <Filter>generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\SpirvAsmParserBaseListener.h">
+      <Filter>generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\SpirvAsmParserBaseVisitor.h">
+      <Filter>generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\SpirvAsmParserListener.h">
+      <Filter>generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\SpirvAsmParserVisitor.h">
+      <Filter>generated</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

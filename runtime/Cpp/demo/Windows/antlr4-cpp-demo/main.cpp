@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 2012-2017 The ANTLR Project. All rights reserved.
+/* Copyright (c) 2012-2017 The ANTLR Project. All rights reserved.
  * Use of this file is governed by the BSD 3-clause license that
  * can be found in the LICENSE.txt file in the project root.
  */
@@ -13,8 +13,8 @@
 #include <iostream>
 
 #include "antlr4-runtime.h"
-#include "TLexer.h"
-#include "TParser.h"
+#include "SpirvAsmLexer.h"
+#include "SpirvAsmParser.h"
 
 #include <Windows.h>
 
@@ -26,10 +26,10 @@ using namespace antlr4;
 int main(int argc, const char * argv[]) {
 
   ANTLRInputStream input("a = b + \"c\";(((x * d))) * e + f; a + (x * (y ? 0 : 1) + z);");
-  TLexer lexer(&input);
+  SpirvAsmLexer lexer(&input);
   CommonTokenStream tokens(&lexer);
 
-  TParser parser(&tokens);
+  SpirvAsmParser parser(&tokens);
   tree::ParseTree *tree = parser.main();
 
   auto s = tree->toStringTree(&parser);
