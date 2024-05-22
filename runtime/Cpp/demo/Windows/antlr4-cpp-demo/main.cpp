@@ -17,20 +17,31 @@
 #include "SpirvAsmParser.h"
 
 #include <Windows.h>
+#include <string>
 
 #pragma execution_character_set("utf-8")
 
-using namespace antlrcpptest;
+using namespace SpirvAsm;
 using namespace antlr4;
+using namespace std;
 
 int main(int argc, const char * argv[]) {
 
-  ANTLRInputStream input("a = b + \"c\";(((x * d))) * e + f; a + (x * (y ? 0 : 1) + z);");
+  if (argc < 2) {
+    std::cerr << "Usage: " << argv[0] << " <input-file>" << std::endl;
+    return 1;
+  }
+
+  string path = argv[1];
+  ANTLRFileStream input;
+  input.loadFromFile(path);
+
+  //ANTLRInputStream input("a = b + \"c\";(((x * d))) * e + f; a + (x * (y ? 0 : 1) + z);");
   SpirvAsmLexer lexer(&input);
   CommonTokenStream tokens(&lexer);
 
   SpirvAsmParser parser(&tokens);
-  tree::ParseTree *tree = parser.main();
+  tree::ParseTree *tree = parser.program();
 
   auto s = tree->toStringTree(&parser);
   std::cout << "Parse Tree: " << s << std::endl;

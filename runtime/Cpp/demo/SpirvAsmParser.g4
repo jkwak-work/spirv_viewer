@@ -68,52 +68,78 @@ void doAfter() {}
 @parser::basevisitordefinitions {/* base visitor definitions section */}
 
 // Actual grammar start.
-main: stat+ EOF;
-divide : ID (and_ GreaterThan)? {doesItBlend()}?;
-and_ @init{ doInit(); } @after { doAfter(); } : And ;
+program: instruction* EOF;
 
-conquer:
-	divide+
-	| {doesItBlend()}? and_ { myAction(); }
-	| ID (LessThan* divide)?? { $ID.text; }
-;
+addressing_model: ADDRESSING_MODEL
+    ;
 
-// Unused rule to demonstrate some of the special features.
-unused[double input = 111] returns [double calculated] locals [int _a, double _b, int _c] @init{ doInit(); } @after { doAfter(); } :
-	stat
-;
-catch [...] {
-  // Replaces the standard exception handling.
-}
-finally {
-  cleanUp();
-}
+capability: CAPABILITY
+    | CONFLICT_GEOMETRY
+	| CONFLICT_KERNEL
+	| CONFLICT_DENORM_PRESERVE
+	| CONFLICT_DENORM_FLUSH_TO_ZERO
+	| CONFLICT_SIGNED_ZERO_INF_NAN_PRESERVE
+	| CONFLICT_ROUNDING_MODE_RTE
+	| CONFLICT_ROUNDING_MODE_RTZ
+	| CONFLICT_OPT_NONE_INTEL
+	| CONFLICT_SHADER_INVOCATION_REORDER_NV
+    ;
 
-unused2:
-	(unused[1] .)+ (Colon | Semicolon | Plus)? ~Semicolon
-;
+decoration: DECORATION
+    | CONFLICT_UNIFORM
+	| CONFLICT_VOLATILE
+	;
 
-stat: expr Equal expr Semicolon
-    | expr Semicolon
-;
+execution_mode: EXECUTION_MODE
+    | CONFLICT_DENORM_PRESERVE
+	| CONFLICT_DENORM_FLUSH_TO_ZERO
+	| CONFLICT_SIGNED_ZERO_INF_NAN_PRESERVE
+	| CONFLICT_ROUNDING_MODE_RTE
+	| CONFLICT_ROUNDING_MODE_RTZ
+    ;
 
-expr: expr Star expr
-    | expr Plus expr
-    | OpenPar expr ClosePar
-    | <assoc = right> expr QuestionMark expr Colon expr
-    | <assoc = right> expr Equal expr
-    | identifier = id
-    | flowControl
-    | INT
-    | String
-;
+execution_model: EXECUTION_MODEL
+    | CONFLICT_GEOMETRY
+	| CONFLICT_KERNEL
+    ;
 
-flowControl:
-	Return expr # Return
-	| Continue # Continue
-;
+function_control: FUNCTION_CONTROL
+    | CONFLICT_NONE
+	| CONFLICT_OPT_NONE_INTEL
+	;
 
-id: ID;
-array : OpenCurly el += INT (Comma el += INT)* CloseCurly;
-idarray : OpenCurly element += id (Comma element += id)* CloseCurly;
-any: t = .;
+memory_model: MEMORY_MODEL
+    ;
+
+memory_operands: MEMORY_OPERANDS
+    | CONFLICT_NONE
+	| CONFLICT_VOLATILE
+	;
+
+storage_class: STORAGE_CLASS
+    | CONFLICT_UNIFORM
+	| CONFLICT_SHADER_INVOCATION_REORDER_NV
+	;
+
+instruction: (OP_CAPABILITY capability)
+	| (OP_MEMORYMODEL addressing_model memory_model)
+	| (OP_EXTENSION LITERAL)
+	| (OP_ENTRYPOINT execution_model ID LITERAL ID*)
+	| (OP_EXECUTIONMODE ID execution_mode LITERAL*)
+	| (OP_SOURCE SOURCE_LANGUAGE LITERAL ID? LITERAL?)
+	| (OP_NAME ID LITERAL)
+	| (OP_DECORATE ID decoration LITERAL*)
+	| (OP_MEMBERDECORATE ID LITERAL decoration LITERAL*)
+	| (OP_STORE ID ID memory_operands?)
+	| (ID EQUALS OP_TYPEPOINTER storage_class ID)
+	| (ID EQUALS OP_VARIABLE ID storage_class ID?)
+	| (ID EQUALS OP_EXTINST ID ID (LITERAL | DEBUGINFO_INSTRUCTION) ID*)
+	| (ID EQUALS OP_FUNCTION ID function_control ID)
+	| (ID EQUALS OP_LOAD ID ID memory_operands*)
+    | (ID EQUALS OP_CODE operand*)
+	| OP_RETURN
+	| OP_FUNCTIONEND
+	;
+
+operand: ID | LITERAL;
+

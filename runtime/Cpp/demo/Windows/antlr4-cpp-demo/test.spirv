@@ -1,0 +1,151 @@
+; SPIR-V
+; Version: 1.5
+; Generator: Khronos; 40
+; Bound: 80
+; Schema: 0
+OpCapability Shader
+OpExtension "SPV_KHR_non_semantic_info"
+OpExtension "SPV_KHR_storage_buffer_storage_class"
+%2 = OpExtInstImport "NonSemantic.Shader.DebugInfo.100"
+OpMemoryModel Logical GLSL450
+OpEntryPoint GLCompute %computeMain "main" %inputBuffer %outputBuffer
+OpExecutionMode %computeMain LocalSize 1 1 1
+
+; Debug Information
+%1 = OpString "//TEST:SIMPLE(filecheck=SPIR): -stage compute -entry computeMain -target spirv -emit-spirv-directly
+//TEST:SIMPLE(filecheck=SPIR): -stage compute -entry computeMain -target spirv -emit-spirv-directly -g2
+//T-EST(compute, vulkan):COMPARE_COMPUTE_EX(filecheck-buffer=BUF):-vk -emit-spirv-directly -compute -shaderobj -output-using-type
+
+//T-EST:SIMPLE(filecheck=GLSL): -stage compute -entry computeMain -target glsl
+
+//SPIR: OpExtInst %void %{{[0-9]*}} DebugTypePointer
+//GLSL: {{^}}JKWAK
+
+struct Data
+{
+    float4 vec;
+#if 0
+    Data* next;
+#endif
+};
+
+//TEST_INPUT:set inputBuffer = ubuffer(data=[1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0], stride=4)
+RWByteAddressBuffer inputBuffer;
+
+//TEST_INPUT:ubuffer(data=[0], stride=4):out,name=outputBuffer
+RWStructuredBuffer<float> outputBuffer;
+
+
+[numthreads(1,1,1)]
+void computeMain()
+{
+    //BUF: 1
+#if 0
+    Data myData;
+    myData.vec = cData.vec;
+    myData.next = &myData;
+    outputBuffer[0] = myData.next->vec.x + myData.next->vec.y;
+#endif
+
+    Data data;
+    data.vec = inputBuffer.Load<float4>(0);
+    outputBuffer[0] = 1;
+}
+
+"
+%5 = OpString "D:\\sbf\\git\\slang\\debuginfo_for_buffer_references\\tests\\bugs\\gh-4077.slang"
+OpSource Slang 1
+%17 = OpString "computeMain"
+%22 = OpString "slangc"
+%23 = OpString "-target spirv  -I \"D:\\sbf\\git\\slang\\debuginfo_for_buffer_references\\build\\Debug\\bin\" -matrix-layout-column-major -emit-spirv-directly -stage compute -entry computeMain -g2"
+%30 = OpString "float"
+%37 = OpString "vec"
+%42 = OpString "Data"
+%45 = OpString "data"
+OpName %data "data"  ; id %44
+OpName %RWStructuredBuffer "RWStructuredBuffer"  ; id %54
+OpName %inputBuffer "inputBuffer"  ; id %57
+OpName %inputBuffer "inputBuffer"  ; id %57
+OpName %RWStructuredBuffer_0 "RWStructuredBuffer"  ; id %65
+OpName %outputBuffer "outputBuffer"  ; id %68
+OpName %outputBuffer "outputBuffer"  ; id %68
+OpName %computeMain "computeMain"  ; id %11
+
+; Annotations
+OpDecorate %_runtimearr_v4float ArrayStride 16
+OpDecorate %RWStructuredBuffer Block
+OpDecorate %RWStructuredBuffer Block
+OpMemberDecorate %RWStructuredBuffer 0 Offset 0
+OpDecorate %inputBuffer Binding 0
+OpDecorate %inputBuffer DescriptorSet 0
+OpDecorate %_runtimearr_float ArrayStride 4
+OpDecorate %RWStructuredBuffer_0 Block
+OpDecorate %RWStructuredBuffer_0 Block
+OpMemberDecorate %RWStructuredBuffer_0 0 Offset 0
+OpDecorate %outputBuffer Binding 1
+OpDecorate %outputBuffer DescriptorSet 0
+
+; Types, variables and constants
+%void = OpTypeVoid
+%uint = OpTypeInt 32 0
+%uint_11 = OpConstant %uint 11
+%uint_5 = OpConstant %uint 5
+%uint_100 = OpConstant %uint 100
+%12 = OpTypeFunction %void
+%uint_0 = OpConstant %uint 0
+%uint_26 = OpConstant %uint 26
+%uint_6 = OpConstant %uint 6
+%uint_36 = OpConstant %uint 36
+%uint_32 = OpConstant %uint 32
+%uint_3 = OpConstant %uint 3
+%uint_131072 = OpConstant %uint 131072
+%uint_4 = OpConstant %uint 4
+%uint_10 = OpConstant %uint 10
+%uint_8 = OpConstant %uint 8
+%uint_128 = OpConstant %uint 128
+%uint_1 = OpConstant %uint 1
+%uint_37 = OpConstant %uint 37
+%int = OpTypeInt 32 1
+%int_0 = OpConstant %int 0
+%float = OpTypeFloat 32
+%v4float = OpTypeVector %float 4
+%_ptr_StorageBuffer_v4float = OpTypePointer StorageBuffer %v4float
+%_runtimearr_v4float = OpTypeRuntimeArray %v4float
+%RWStructuredBuffer = OpTypeStruct %_runtimearr_v4float
+%_ptr_StorageBuffer_RWStructuredBuffer = OpTypePointer StorageBuffer %RWStructuredBuffer
+%uint_38 = OpConstant %uint 38
+%_ptr_StorageBuffer_float = OpTypePointer StorageBuffer %float
+%_runtimearr_float = OpTypeRuntimeArray %float
+%RWStructuredBuffer_0 = OpTypeStruct %_runtimearr_float
+%_ptr_StorageBuffer_RWStructuredBuffer_0 = OpTypePointer StorageBuffer %RWStructuredBuffer_0
+%float_1 = OpConstant %float 1
+%inputBuffer = OpVariable %_ptr_StorageBuffer_RWStructuredBuffer StorageBuffer
+%outputBuffer = OpVariable %_ptr_StorageBuffer_RWStructuredBuffer_0 StorageBuffer
+%59 = OpExtInst %void %2 DebugExpression
+%4 = OpExtInst %void %2 DebugSource %5 %1
+%10 = OpExtInst %void %2 DebugCompilationUnit %uint_100 %uint_5 %4 %uint_11
+%14 = OpExtInst %void %2 DebugTypeFunction %uint_0 %void
+%16 = OpExtInst %void %2 DebugFunction %17 %14 %4 %uint_26 %uint_6 %10 %17 %uint_0 %uint_26
+%21 = OpExtInst %void %2 DebugEntryPoint %16 %10 %22 %23
+%29 = OpExtInst %void %2 DebugTypeBasic %30 %uint_32 %uint_3 %uint_131072
+%34 = OpExtInst %void %2 DebugTypeVector %29 %uint_4
+%36 = OpExtInst %void %2 DebugTypeMember %37 %34 %4 %uint_10 %uint_8 %uint_0 %uint_128 %uint_0
+%41 = OpExtInst %void %2 DebugTypeComposite %42 %uint_1 %4 %uint_10 %uint_8 %10 %42 %uint_128 %uint_131072 %36
+%data = OpExtInst %void %2 DebugLocalVariable %45 %41 %4 %uint_36 %uint_10 %16 %uint_0
+
+; Function computeMain
+%computeMain = OpFunction %void None %12
+%13 = OpLabel
+%20 = OpExtInst %void %2 DebugFunctionDefinition %16 %computeMain
+%78 = OpExtInst %void %2 DebugScope %16
+%25 = OpExtInst %void %2 DebugLine %4 %uint_36 %uint_36 %uint_5 %uint_6
+%46 = OpExtInst %void %2 DebugLine %4 %uint_37 %uint_37 %uint_5 %uint_6
+%53 = OpAccessChain %_ptr_StorageBuffer_v4float %inputBuffer %int_0 %int_0
+%58 = OpLoad %v4float %53
+%60 = OpExtInst %void %2 DebugValue %data %58 %59 %int_0
+%61 = OpExtInst %void %2 DebugLine %4 %uint_38 %uint_38 %uint_5 %uint_6
+%64 = OpAccessChain %_ptr_StorageBuffer_float %outputBuffer %int_0 %uint_0
+OpStore %64 %float_1
+OpReturn
+%79 = OpExtInst %void %2 DebugNoScope
+OpFunctionEnd
