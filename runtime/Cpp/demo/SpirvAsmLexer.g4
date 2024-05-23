@@ -42,7 +42,7 @@ tokens {
 }
 
 WS: [ \t\r\n]+ -> skip;
-COMMENT: ';' ~[\r\n]* -> skip;
+COMMENT: ';' ~[\r\n]*;
 
 OP_EXTENSION: 'OpExtension';
 OP_ENTRYPOINT: 'OpEntryPoint';

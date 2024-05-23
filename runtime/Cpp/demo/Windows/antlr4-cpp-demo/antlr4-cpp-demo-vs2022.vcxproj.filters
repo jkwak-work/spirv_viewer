@@ -39,6 +39,9 @@
     <ClCompile Include="..\..\generated\SpirvAsmParserVisitor.cpp">
       <Filter>generated</Filter>
     </ClCompile>
+    <ClCompile Include="SemanticVisitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="..\..\generated\SpirvAsmParserVisitor.h">
       <Filter>generated</Filter>
+    </ClInclude>
+    <ClInclude Include="SemanticVisitor.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@
 //
 //  Created by Mike Lischke on 13.03.16.
 //
+#include "SemanticVisitor.h"
 
 #include <iostream>
 
@@ -43,8 +44,8 @@ int main(int argc, const char * argv[]) {
   SpirvAsmParser parser(&tokens);
   tree::ParseTree *tree = parser.program();
 
-  auto s = tree->toStringTree(&parser);
-  std::cout << "Parse Tree: " << s << std::endl;
+  SemanticVisitor semanticVisitor;
+  semanticVisitor.visit(tree);
 
   return 0;
 }
