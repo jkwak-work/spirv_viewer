@@ -3,6 +3,8 @@
 using namespace SpirvAsm;
 
 class SemanticVisitor : public SpirvAsmParserBaseVisitor {
+  int lineNumber = 1;
+
 public:
   virtual std::any visitTerminal(antlr4::tree::TerminalNode *node) override;
   virtual antlrcpp::Any visitProgram(SpirvAsmParser::ProgramContext *context) override;

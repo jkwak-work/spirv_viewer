@@ -3,6 +3,7 @@
 
 using namespace SpirvAsm;
 using namespace std;
+using namespace antlr4;
 using namespace antlr4::tree;
 
 antlrcpp::Any SemanticVisitor::visitProgram(SpirvAsmParser::ProgramContext* context)
@@ -11,6 +12,18 @@ antlrcpp::Any SemanticVisitor::visitProgram(SpirvAsmParser::ProgramContext* cont
 <style>
     body {
         font-family: 'Consolas', 'Monaco', 'Droid Sans Mono', monospace;
+    }
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+    td {
+        vertical-align: top;
+    }
+    td:nth-child(2) {
+        text-align: right;
+    }
+    .token_COMMENT {
+        color: #008000;
     }
     .inline-pre {
         display: inline;
@@ -66,9 +79,9 @@ antlrcpp::Any SemanticVisitor::visitProgram(SpirvAsmParser::ProgramContext* cont
         }
     };
 </script></HEAD>
-<BODY>)" << endl;
+<BODY><TABLE>)" << endl;
   auto result = visitChildren(context);
-  cout << "</BODY></HTML>" << endl;
+  cout << "</TABLE></BODY></HTML>" << endl;
   return result;
 }
 
@@ -80,7 +93,7 @@ std::any SemanticVisitor::visitTerminal(TerminalNode *node)
   case SpirvAsmLexer::ID:
     {
       string id = node->getText();
-      cout << "<span class=\"id" << (id.c_str() + 1) << "\">";
+      cout << "<span class=\"id_" << (id.c_str() + 1) << "\">";
       cout << id;
       cout << "</span> ";
     }
@@ -97,6 +110,12 @@ std::any SemanticVisitor::visitTerminal(TerminalNode *node)
       }
     }
     break;
+  case SpirvAsmLexer::COMMENT:
+    cout << "<span class=\"token_COMMENT\">";
+    cout << node->getText();
+    cout << "</span> ";
+    break;
+
   default:
     cout << node->getText() << " ";
   }
@@ -105,8 +124,48 @@ std::any SemanticVisitor::visitTerminal(TerminalNode *node)
 
 antlrcpp::Any SemanticVisitor::visitInstruction(SpirvAsmParser::InstructionContext* context)
 {
-  auto result = visitChildren(context);
-  cout << "<BR>" << endl;
+  cout << "<TR><TD>" << lineNumber << "</TD>";
+
+  std::any result = defaultResult();
+
+  size_t childIndex = 0;
+  size_t childCount = context->children.size();
+
+  if (childCount > 2) {
+    ParseTree *c = context->children[1];
+    if (TerminalNode *term = dynamic_cast<TerminalNode*>(c)) {
+      if (Token *token = term->getSymbol()) {
+        if (token->getType() == SpirvAsmLexer::EQUALS) {
+          for (; childIndex < 2; ++childIndex) {
+            cout << "<TD>";
+            context->children[childIndex]->accept(this);
+            cout << "</TD>";
+          }
+        }
+      }
+    }
+  }
+
+  if (childIndex == 2)
+  {
+    cout << "<TD>";
+  } else
+  {
+    //cout << "<TD colspan=\"3\">";
+    cout << "<TD></TD><TD></TD><TD>";
+  }
+
+  for (; childIndex < childCount; childIndex++) {
+    if (!shouldVisitNextChild(context, result)) {
+      break;
+    }
+
+    std::any childResult = context->children[childIndex]->accept(this);
+    result = aggregateResult(std::move(result), std::move(childResult));
+  }
+
+  cout << "</TD></TR>" << endl;
+  ++lineNumber;
   return result;
 }
 
