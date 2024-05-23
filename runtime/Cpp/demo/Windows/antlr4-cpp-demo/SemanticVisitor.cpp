@@ -12,6 +12,9 @@ antlrcpp::Any SemanticVisitor::visitProgram(SpirvAsmParser::ProgramContext* cont
     body {
         font-family: 'Consolas', 'Monaco', 'Droid Sans Mono', monospace;
     }
+    .inline-pre {
+        display: inline;
+    }
 </style>
 <script>
     window.onload = function() {
@@ -71,15 +74,32 @@ antlrcpp::Any SemanticVisitor::visitProgram(SpirvAsmParser::ProgramContext* cont
 
 std::any SemanticVisitor::visitTerminal(TerminalNode *node)
 {
-  if (node->getSymbol()->getType() == SpirvAsmLexer::ID) {
-    string id = node->getText();
-    cout << "<span class=\"id" << (id.c_str() + 1) << "\">";
-    cout << id;
-    cout << "</span> ";
-  } else {
+  int symbolType = node->getSymbol()->getType();
+  switch (symbolType)
+  {
+  case SpirvAsmLexer::ID:
+    {
+      string id = node->getText();
+      cout << "<span class=\"id" << (id.c_str() + 1) << "\">";
+      cout << id;
+      cout << "</span> ";
+    }
+    break;
+  case SpirvAsmLexer::LITERAL:
+    {
+      string literal = node->getText();
+      if (literal.find("\n") != string::npos) {
+        cout << "<pre class=\"inline-pre\">";
+        cout << literal;
+        cout << "</pre> ";
+      } else {
+        cout << literal;
+      }
+    }
+    break;
+  default:
     cout << node->getText() << " ";
   }
-
   return visitChildren(node);
 }
 
