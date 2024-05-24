@@ -87,7 +87,7 @@ antlrcpp::Any SemanticVisitor::visitProgram(SpirvAsmParser::ProgramContext* cont
 
 std::any SemanticVisitor::visitTerminal(TerminalNode *node)
 {
-  int symbolType = node->getSymbol()->getType();
+  size_t symbolType = node->getSymbol()->getType();
   switch (symbolType)
   {
   case SpirvAsmLexer::ID:
