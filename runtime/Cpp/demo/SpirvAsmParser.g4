@@ -147,6 +147,7 @@ instruction: COMMENT
     | (OP_MEMORYMODEL addressing_model memory_model)
     | (OP_NAME ID LITERAL COMMENT?)
     | (OP_SOURCE SOURCE_LANGUAGE LITERAL ID? LITERAL?)
+    | (OP_SOURCEEXTENSION LITERAL)
     | (OP_STORE ID ID memory_operands?)
     | (OP_TYPEFORWARDPOINTER ID storage_class)
     | (ID EQUALS OP_TYPEPOINTER storage_class ID)
